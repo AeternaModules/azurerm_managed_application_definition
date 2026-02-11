@@ -14,7 +14,7 @@ resource "azurerm_managed_application_definition" "managed_application_definitio
   tags                 = each.value.tags
 
   dynamic "authorization" {
-    for_each = each.value.authorization != null ? [each.value.authorization] : []
+    for_each = each.value.authorization != null ? each.value.authorization : []
     content {
       role_definition_id   = authorization.value.role_definition_id
       service_principal_id = authorization.value.service_principal_id

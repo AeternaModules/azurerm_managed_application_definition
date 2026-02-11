@@ -28,13 +28,21 @@ EOT
     create_ui_definition = optional(string)
     description          = optional(string)
     main_template        = optional(string)
-    package_enabled      = optional(bool, true)
+    package_enabled      = optional(bool) # Default: true
     package_file_uri     = optional(string)
     tags                 = optional(map(string))
-    authorization = optional(object({
+    authorization = optional(list(object({
       role_definition_id   = string
       service_principal_id = string
-    }))
+    })))
   }))
+  validation {
+    condition = alltrue([
+      for k, v in var.managed_application_definitions : (
+        v.authorization == null || (length(v.authorization) >= 1)
+      )
+    ])
+    error_message = "Each authorization list must contain at least 1 items"
+  }
 }
 
