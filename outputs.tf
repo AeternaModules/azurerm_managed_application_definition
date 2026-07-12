@@ -1,3 +1,7 @@
+output "managed_application_definitions_id" {
+  description = "Map of id values across all managed_application_definitions, keyed the same as var.managed_application_definitions"
+  value       = { for k, v in azurerm_managed_application_definition.managed_application_definitions : k => v.id }
+}
 output "managed_application_definitions_authorization" {
   description = "Map of authorization values across all managed_application_definitions, keyed the same as var.managed_application_definitions"
   value       = { for k, v in azurerm_managed_application_definition.managed_application_definitions : k => v.authorization }
