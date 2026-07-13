@@ -28,7 +28,7 @@ EOT
     create_ui_definition = optional(string)
     description          = optional(string)
     main_template        = optional(string)
-    package_enabled      = optional(bool) # Default: true
+    package_enabled      = optional(bool)
     package_file_uri     = optional(string)
     tags                 = optional(map(string))
     authorization = optional(list(object({
@@ -36,14 +36,6 @@ EOT
       service_principal_id = string
     })))
   }))
-  validation {
-    condition = alltrue([
-      for k, v in var.managed_application_definitions : (
-        v.authorization == null || (length(v.authorization) >= 1)
-      )
-    ])
-    error_message = "Each authorization list must contain at least 1 items"
-  }
   # --- Unconfirmed validation candidates, derived from azurerm_managed_application_definition's provider source ---
   # Not auto-enabled: either a bespoke provider validator we can't safely translate,
   # or a path that crosses a list-typed block (needs its own for_each wrapping).
